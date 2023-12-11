@@ -1,0 +1,1 @@
+g++ fluidSim.cpp -o fluidSim.exe -L/usr/X11R6/lib -lX11
