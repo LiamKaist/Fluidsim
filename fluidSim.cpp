@@ -24,13 +24,15 @@ void fillCell(unsigned char *table, int row,int column,unsigned char colour)
     }
 }
 
-class gridCell
+float velocitiesX[51][51] = {0.0};
+float velocitiesY[51][51] = {0.0};
+/*
+class GridCell
 {
     public:
-    float velocities[4]; /* 0 is left side velocity, 1 is top side velocity, 2 is right side velocity, 3 is bottom side velocity*/
+    float velocities[4]; // 0 is left side velocity, 1 is top side velocity, 2 is right side velocity, 3 is bottom side velocity
 
-
-    gridCell()
+    GridCell()
     {
         for(int i = 0;i<4;i++)
         {
@@ -38,7 +40,7 @@ class gridCell
         }    
     }
 
-    /* Computes velocities with properties of divergence for an incompressible fluid */
+    // Computes velocities with properties of divergence for an incompressible fluid
     void computeDivergence()
     {
         float divergence;
@@ -49,6 +51,27 @@ class gridCell
         velocities[3] -= divergence/4; 
     }
 };
+*/
+
+void updateVelocities(float velocityX[51][51], float velocityY[51][51],float accelerationX,float accelerationY, float timestep)
+{
+    /* Update velocities about X */
+    for(int i = 0;i<51;i++)
+    {
+        for(int k = 0;k<51;k++)
+        {
+            velocityX[i][k] += accelerationX * timestep;
+        }
+    }
+    /* Update velocities about Y */
+    for(int i = 0;i<51;i++)
+    {
+        for(int k = 0;k<51;k++)
+        {
+            velocityY[i][k] += accelerationY * timestep;
+        }
+    }
+}
 
 int main()
 {
@@ -57,6 +80,15 @@ int main()
     CImg<unsigned char> replacement(100,100,1,3,0);
     CImgDisplay draw_disp(visu,"Fluid simulation");
     const unsigned char red[] = { 255,0,0 }, green[] = { 0,255,0 }, blue[] = { 0,0,255 };
+    updateVelocities(velocitiesX,velocitiesY,0.0,-9.81,0.0333); /* DO NOT USE FRACTIONS 1/2, they do not work as floats */
+    for(int i = 0;i<51;i++)
+    {
+        for(int k = 0;k<51;k++)
+        {
+            printf("%f\n",velocitiesY[i][k]);
+        }
+    }
+
     while(!draw_disp.is_closed())
     {
         unsigned char * ptr = visu.data();
@@ -76,6 +108,7 @@ int main()
             }
         }
         draw_disp.display(visu);
+
 
     }
     return 0;   

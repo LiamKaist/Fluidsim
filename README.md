@@ -30,3 +30,9 @@ December 10 2023 :
 
 I have a grid of 50 by 50 cells, velocities are however not stored in the centers of the cells , but on the sides of the cells.
 Which means there will be (50 + 1 velocities ) by (50 + 1 velocities) stored in an array
+
+11/12/2023
+
+First , create a table containing all the velocities of the staggered grid
+There are 50 by 50 cells, hence 51 by 51 velocities to store due to the staggered grid. (Why use a staggered grid? This should be understood)
+
